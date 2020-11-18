@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-US" ng-app="movieApp">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css" />
+    <title></title>
+  </head>
+  <body>
+    <header class="container">
+      <div class="page-header">
+        <h1><a href="/#!/" class="text-dark">MovieApp</a></h1>
+        <p class="lead">Your Resource for Movie Data.</p>
+      </div>
+      <div ng-controller="SearchController">
+        <form class="form-inline-lg" ng-submit="search()">
+          <div class="input-group">
+            <input type="search" class="form-control" placeholder="Film title..." ng-model="query" />
+            <span class="input-group-append">
+              <button class="btn btn-dark" type="button" ng-click="search()">Go!</button>
+            </span>
+          </div>
+        </form>
+      </div>
+    </header>
+
+    <main class="container">
+      <div ng-view=""></div>
+      <hr />
+    </main>
+    <footer class="container">
+      <p class="text-muted">OMDb API</p>
+    </footer>
+
+    <script src="/lib/jquery/jquery.min.js"></script>
+    <script src="/lib/angular/angular.min.js"></script>
+    <script src="/lib/angular/angular-route.min.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/src/omdb/service.js"></script>
+    <script src="/src/movie-app/app.js"></script>
+    <script src="/src/movie-app/results.controller.js"></script>
+    <script src="/src/movie-app/search.controller.js"></script>
+  </body>
+</html>

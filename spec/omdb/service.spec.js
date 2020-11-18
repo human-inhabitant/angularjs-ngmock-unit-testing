@@ -1,4 +1,4 @@
-describe('omdb service', () => {
+describe('OMDB Service', () => {
   const movieData = {
     Search: [{
       Title: 'Star Wars: Episode IV - A New Hope', Year: '1977', imdbID: 'tt0076759', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BNzVlY2MwMjktM2E4OS00Y2Y3LWE3ZjctYzhkZGM3YzA1ZWM2XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg'
@@ -30,9 +30,9 @@ describe('omdb service', () => {
   let omdbApi = {};
   let $httpBackend;
 
-  beforeEach(angular.mock.module('omdb'));
+  beforeEach(module('omdb'));
 
-  beforeEach(angular.mock.inject((_omdbApi_, _$httpBackend_) => {
+  beforeEach(inject((_omdbApi_, _$httpBackend_) => {
     omdbApi = _omdbApi_;
     $httpBackend = _$httpBackend_;
   }));
@@ -43,7 +43,7 @@ describe('omdb service', () => {
       .when('GET', 'https://www.omdbapi.com/?i=tt3896198&apikey=a343c096&v=1&s=star%20wars')
       .respond(200, movieData);
     omdbApi.search('star wars').then((data) => {
-      response = data.data;
+      response = data;
     });
     $httpBackend.flush();
     expect(response).toEqual(movieData);
@@ -57,7 +57,7 @@ describe('omdb service', () => {
     omdbApi
       .find('tt0076759')
       .then((data) => {
-        response = data.data;
+        response = data;
       })
       .catch(() => {
         response = 'Error...';
@@ -72,7 +72,7 @@ describe('omdb service', () => {
       .expect('GET', 'https://www.omdbapi.com/?i=tt3896198&apikey=a343c096&v=1&i=tt0076759')
       .respond(200, movieDataById);
     omdbApi.find('tt0076759').then((data) => {
-      response = data.data;
+      response = data;
     });
     $httpBackend.flush();
     expect(response).toEqual(movieDataById);

@@ -10,7 +10,7 @@ angular
       const deferred = $q.defer();
       $http({ url, method: 'get' })
         .then((data) => {
-          deferred.resolve(data);
+          deferred.resolve(data.data);
         }, () => {
           deferred.reject();
         });

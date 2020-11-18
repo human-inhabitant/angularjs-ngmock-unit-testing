@@ -1,4 +1,4 @@
-describe('MoviesCore', () => {
+describe('Movie Core Service', () => {
   let PopularMovies;
   let $httpBackend;
 
