@@ -28,19 +28,53 @@ describe('omdb service', () => {
     Title: 'Star Wars: Episode IV - A New Hope', Year: '1977', Rated: 'PG', Released: '25 May 1977', Runtime: '121 min', Genre: 'Action, Adventure, Fantasy, Sci-Fi', Director: 'George Lucas', Writer: 'George Lucas', Actors: 'Mark Hamill, Harrison Ford, Carrie Fisher, Peter Cushing', Plot: "Luke Skywalker joins forces with a Jedi Knight, a cocky pilot, a Wookiee and two droids to save the galaxy from the Empire's world-destroying battle station, while also attempting to rescue Princess Leia from the mysterious Darth Vader.", Language: 'English', Country: 'USA', Awards: 'Won 6 Oscars. Another 52 wins & 29 nominations.', Poster: 'https://m.media-amazon.com/images/M/MV5BNzVlY2MwMjktM2E4OS00Y2Y3LWE3ZjctYzhkZGM3YzA1ZWM2XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg', Ratings: [{ Source: 'Internet Movie Database', Value: '8.6/10' }, { Source: 'Rotten Tomatoes', Value: '92%' }, { Source: 'Metacritic', Value: '90/100' }], Metascore: '90', imdbRating: '8.6', imdbVotes: '1,213,873', imdbID: 'tt0076759', Type: 'movie', DVD: 'N/A', BoxOffice: 'N/A', Production: 'Lucasfilm Ltd.', Website: 'N/A', Response: 'True'
   };
   let omdbApi = {};
+  let $httpBackend;
 
   beforeEach(angular.mock.module('omdb'));
 
-  beforeEach(angular.mock.inject((_omdbApi_) => {
+  beforeEach(angular.mock.inject((_omdbApi_, _$httpBackend_) => {
     omdbApi = _omdbApi_;
+    $httpBackend = _$httpBackend_;
   }));
 
   it('should return search movie data', () => {
-    console.info(angular.mock.dump(movieData));
-    expect(omdbApi.search('star wars')).toEqual(movieData);
+    let response;
+    $httpBackend
+      .when('GET', 'https://www.omdbapi.com/?i=tt3896198&apikey=a343c096&v=1&s=star%20wars')
+      .respond(200, movieData);
+    omdbApi.search('star wars').then((data) => {
+      response = data.data;
+    });
+    $httpBackend.flush();
+    expect(response).toEqual(movieData);
+  });
+
+  it('should handle error', () => {
+    let response;
+    $httpBackend
+      .expect('GET', 'https://www.omdbapi.com/?i=tt3896198&apikey=a343c096&v=1&i=tt0076759')
+      .respond(500);
+    omdbApi
+      .find('tt0076759')
+      .then((data) => {
+        response = data.data;
+      })
+      .catch(() => {
+        response = 'Error...';
+      });
+    $httpBackend.flush();
+    expect(response).toEqual('Error...');
   });
 
   it('should return movie data by id', () => {
-    expect(omdbApi.find('tt0076759')).toEqual(movieDataById);
+    let response;
+    $httpBackend
+      .expect('GET', 'https://www.omdbapi.com/?i=tt3896198&apikey=a343c096&v=1&i=tt0076759')
+      .respond(200, movieDataById);
+    omdbApi.find('tt0076759').then((data) => {
+      response = data.data;
+    });
+    $httpBackend.flush();
+    expect(response).toEqual(movieDataById);
   });
 });

@@ -6,7 +6,9 @@
   "dependencies": {
     "angular": "^1.8.2",
     "angular-mocks": "^1.8.2",
+    "angular-resource": "^1.8.2",
     "debug": "^4.2.0",
+    "eslint-plugin-angular": "^4.0.1",
     "express": "^4.17.1"
   },
   "devDependencies": {
