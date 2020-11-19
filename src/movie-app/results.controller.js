@@ -9,7 +9,6 @@ function searchController($scope, $location, omdbApi) {
   omdbApi
     .search(query)
     .then((data) => {
-      console.info(data);
       $scope.results = data.Search;
     }, () => {
       $scope.errorMessage = 'Something went wrong!';

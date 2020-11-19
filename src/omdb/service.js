@@ -4,9 +4,10 @@ angular
   .module('omdb')
   .factory('omdbApi', ($http, $q) => {
     const service = {};
-    const baseUrl = 'https://www.omdbapi.com/?i=tt3896198&apikey=a343c096&v=1&';
+    const baseUrl = 'https://www.omdbapi.com/?apikey=a343c096&v=1&';
 
     function httpPromise(url) {
+      console.info('url', url);
       const deferred = $q.defer();
       $http({ url, method: 'get' })
         .then((data) => {
